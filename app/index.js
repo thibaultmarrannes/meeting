@@ -2,7 +2,7 @@ const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 
 const app = express();
-const port = 3002;
+const port = process.env.LOCAL_PORT || 3000;
 
 app.use(expressLayouts);
 app.set('view engine', 'ejs'); // Set EJS as the template engine
