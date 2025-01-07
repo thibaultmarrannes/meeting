@@ -11,6 +11,7 @@
   "author": "Thibault Marrannes",
   "license": "ISC",
   "dependencies": {
+    "@notionhq/client": "^2.2.15",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",

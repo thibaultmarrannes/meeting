@@ -6,7 +6,7 @@ services:
       context: ./app
       dockerfile: Dockerfile
     ports:
-      - "${LOCAL_PORT}:3000"
+      - "${LOCAL_PORT}:${LOCAL_PORT}"
     volumes:
       - ./app:/usr/src/app # Mount local code into the container
       - /usr/src/app/node_modules # Prevent overwriting node_modules
@@ -25,7 +25,7 @@ services:
       - ./db_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "${DB_PORT}:5432"
+      - "${DB_PORT}:${DB_PORT}"
     restart: always
 
   pgadmin:
