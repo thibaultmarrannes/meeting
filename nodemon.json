@@ -1,0 +1,15 @@
+{
+    "watch": ["*.js", "src/", "config/"],
+    "ext": "js,json",
+    "ignore": ["node_modules/*", "logs/*"],
+    "exec": "node index.js",
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": "3002"
+    },
+    "delay": "2000",
+    "events": {
+      "restart": "echo 'App restarted due to changes!'",
+      "crash": "echo 'App crashed! Waiting for changes...' && sleep 1"
+    }
+  }

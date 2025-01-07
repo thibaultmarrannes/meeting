@@ -1,0 +1,66 @@
+html, body {
+  height: 100%; /* Ensure the body spans the full viewport height */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  box-sizing: border-box; /* Ensure padding and borders don't affect height/width calculations */
+}
+
+body {
+  display: flex; /* Ensures the body stretches fully even with minimal content */
+  flex-direction: column; /* Default flow */
+  min-height: 100%; /* Ensures it stretches even with little content */
+  background: rgb(167, 255, 171); /* Fallback solid color */
+  background: linear-gradient(357deg, rgb(167, 255, 171) 0%, rgb(0, 174, 86) 100%);
+  background-size: cover; /* Ensures gradient covers the viewport */
+  color: #fff; /* Set a default color */
+  align-items: center;
+  justify-content: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  font-family: Arial, sans-serif; /* Set a default font */
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  font-family: Arial, sans-serif; /* Set a default font */
+  line-height: 1.5; /* Improve readability */
+}
+
+ul, li {
+  list-style: none; /* Remove default list styling */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  font-family: Arial, sans-serif; /* Set a default font */
+  line-height: 1.5; /* Improve readability */
+  padding-left: 1.5rem; /* Add indentation */
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}/*# sourceMappingURL=custom.css.map */

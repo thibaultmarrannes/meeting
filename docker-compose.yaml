@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  express-app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./app:/usr/src/app # Mount local code into the container
+      - /usr/src/app/node_modules # Prevent overwriting node_modules
+    env_file:
+      - .env 
+    restart: always
+    command: nodemon index.js # Use nodemon for live updates
