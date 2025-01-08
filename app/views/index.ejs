@@ -1,0 +1,125 @@
+<div class="container mt-5">  <div class="row">
+    
+    <div class="col-md-8">
+      <h2><%= title %></h2>
+      <input type="text" class="form-control mb-2" id="meetingname" name="meeting">
+      <textarea class="form-control" rows="20" id="main-textarea"></textarea>
+    </div>
+    <div class="col-md-4">
+      <h2>add to do </h2>
+      <form id="dynamic-form">
+        <div class="form-group pair-group">
+          <label for="textbox">To do</label>
+          <input type="text" class="form-control mb-2" id="textbox" name="ticket">
+          
+          <label for="dropdown">Trello bord</label>
+          <select class="form-control mb-3" id="dropdown" name="board">
+            <% Object.entries(trelloBoards).forEach(([key, value]) => { %>
+              <option value="<%= value %>"><%= key %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div id="dynamic-fields"></div> <!-- Container for dynamic fields -->
+        <button type="button" class="btn btn-secondary mb-2" id="add-more">extra to do</button>
+        <button type="button" class="btn btn-primary" id="submit-form">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const addMoreButton = document.getElementById("add-more");
+    const dynamicFieldsContainer = document.getElementById("dynamic-fields");
+    const submitButton = document.getElementById("submit-form");
+    const form = document.getElementById("dynamic-form");
+
+    const trelloBoards = <%- JSON.stringify(trelloBoards) %>; // Get Trello boards from EJS
+
+    // Add dynamic fields
+    addMoreButton.addEventListener("click", function () {
+      const newGroup = document.createElement("div");
+      newGroup.classList.add("form-group", "pair-group");
+
+      const newTextboxLabel = document.createElement("label");
+      newTextboxLabel.textContent = "Textbox";
+      const newTextbox = document.createElement("input");
+      newTextbox.type = "text";
+      newTextbox.classList.add("form-control", "mb-2");
+      newTextbox.name = "textbox[]";
+
+      const newDropdownLabel = document.createElement("label");
+      newDropdownLabel.textContent = "Dropdown";
+      const newDropdown = document.createElement("select");
+      newDropdown.classList.add("form-control", "mb-3");
+      newDropdown.name = "dropdown[]";
+
+      Object.entries(trelloBoards).forEach(([key, value]) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = key;
+        newDropdown.appendChild(option);
+      });
+
+      newGroup.appendChild(newTextboxLabel);
+      newGroup.appendChild(newTextbox);
+      newGroup.appendChild(newDropdownLabel);
+      newGroup.appendChild(newDropdown);
+
+      dynamicFieldsContainer.appendChild(newGroup);
+    });
+
+    // Submit form data
+    submitButton.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent form submission default behavior
+
+      const formData = new FormData(form);
+
+      // Add textarea data
+      const mainTextarea = document.getElementById("main-textarea");
+      formData.append("meetingNotes", mainTextarea.value);
+
+            // Add textarea data
+      const meetingTitle = document.getElementById("meetingname");
+      formData.append("meetingTitle", meetingTitle.value);
+
+
+      // Convert FormData to JSON
+      const data = {};
+      formData.forEach((value, key) => {
+        if (!data[key]) {
+          data[key] = [];
+        }
+        data[key].push(value);
+      });
+
+      // Send data to the server
+      fetch("/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((err) => {
+              throw new Error(err.message || "Something went wrong");
+            });
+          }
+          return response.json();
+        })
+        .then((result) => {
+          // Show success message
+          alert("Form submitted successfully: " + result.message);
+
+          // Clear form fields
+          form.reset();
+          dynamicFieldsContainer.innerHTML = ""; // Remove dynamic fields
+        })
+        .catch((error) => {
+          // Show error message
+          alert("Error: " + error.message);
+        });
+    });
+  });
+</script>
